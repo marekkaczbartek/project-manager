@@ -1,4 +1,4 @@
-package com.example.projectmanager.enums;
+package com.example.projectmanager.utils;
 
 public enum Specialization {
     FRONTEND,
