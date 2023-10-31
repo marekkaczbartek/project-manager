@@ -1,17 +1,22 @@
 package com.example.projectmanager.entities;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class ProjectCredentials {
+@Entity
+public class User {
+    @Id
+    private String id;
     private String name;
-    private ArrayList<Developer> users;
+    private String surname;
+
+    //TODO add more fields perhaps
 }

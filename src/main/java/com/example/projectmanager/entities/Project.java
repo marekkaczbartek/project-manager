@@ -12,7 +12,5 @@ public class Project {
 
     @Id
     private String id;
-    private String userId;
-    private ProjectCredentials projectCredentials;
-
+    private String name;
 }
