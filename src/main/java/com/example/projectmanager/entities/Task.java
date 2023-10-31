@@ -3,8 +3,7 @@ package com.example.projectmanager.entities;
 
 import com.example.projectmanager.utils.Specialization;
 import com.example.projectmanager.utils.TaskState;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,12 +16,14 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table(name="TASKS")
 public class Task {
     @Id
-    private String id;
-    private String projectId;
-    private String createdById;
-    private String assignedToId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private Long projectId;
+    private Long createdById;
+    private Long assignedToId;
 
     private String name;
     private Date deadline;
@@ -31,9 +32,9 @@ public class Task {
     //TODO add estimation
 
 
-    public Task(String projectId,
-                String createdById,
-                String assignedToId,
+    public Task(Long projectId,
+                Long createdById,
+                Long assignedToId,
                 String name,
                 Date deadline,
                 TaskState taskState,
