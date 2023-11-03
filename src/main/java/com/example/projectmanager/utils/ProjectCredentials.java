@@ -11,6 +11,7 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,5 +21,5 @@ public class ProjectCredentials {
     @JsonProperty("name")
     private String name;
     @JsonProperty("users")
-    private HashMap<Long, Specialization> users;
+    private List<DeveloperCredentials> users;
 }
