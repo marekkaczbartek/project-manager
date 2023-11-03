@@ -30,6 +30,9 @@ public class Project {
     @OneToMany(mappedBy = "project")
     private List<Developer> developers;
 
+    @OneToMany(mappedBy = "project")
+    private List<Task> tasks;
+
     public Project(String name) {
         this.name = name;
     }

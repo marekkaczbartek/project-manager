@@ -23,7 +23,7 @@ import java.util.Date;
 @JsonIdentityInfo(scope = Task.class,
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id")
-@JsonIdentityReference(alwaysAsId = true)
+
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

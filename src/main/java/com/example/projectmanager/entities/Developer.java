@@ -1,6 +1,5 @@
 package com.example.projectmanager.entities;
 
-import com.example.projectmanager.services.ProjectService;
 import com.example.projectmanager.utils.Specialization;
 import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
@@ -45,6 +44,11 @@ public class Developer {
     public Developer(User user, Project project, Specialization specialization) {
         this.user = user;
         this.project = project;
+        this.specialization = specialization;
+    }
+
+    public Developer(User user, Specialization specialization) {
+        this.user = user;
         this.specialization = specialization;
     }
 }
