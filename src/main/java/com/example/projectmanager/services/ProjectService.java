@@ -3,9 +3,11 @@ package com.example.projectmanager.services;
 import com.example.projectmanager.entities.Developer;
 import com.example.projectmanager.entities.Project;
 import com.example.projectmanager.entities.User;
+import com.example.projectmanager.exceptions.UserNotFoundException;
 import com.example.projectmanager.repositories.DeveloperRepository;
 import com.example.projectmanager.repositories.ProjectRepository;
 import com.example.projectmanager.repositories.UserRepository;
+import com.example.projectmanager.utils.DeveloperCredentials;
 import com.example.projectmanager.utils.ProjectCredentials;
 import com.example.projectmanager.utils.Specialization;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,18 +33,17 @@ public class ProjectService {
 
     public Project addNewProject(ProjectCredentials projectCredentials) {
         String name = projectCredentials.getName();
+        List<DeveloperCredentials> users = projectCredentials.getUsers();
         List<Developer> developers = new ArrayList<>();
-        Map<Long, Specialization> users = projectCredentials.getUsers();
-        for (Map.Entry<Long, Specialization> entry : users.entrySet()) {
-            String userId = entry.getKey().toString();
-            Specialization spec = entry.getValue();
-
+        for (DeveloperCredentials userSpec : users) {
+            String userId = userSpec.getUserId();
+            Specialization spec = userSpec.getSpecialization();
             Optional<User> userOptional = userRepository.findById(userId);
             if (userOptional.isPresent()) {
                 User user = userOptional.get();
-                developers.add(new Developer(user, null, spec));
+                developers.add(new Developer(user, spec));
             }
-            else throw new RuntimeException("User doesnt exist");
+            else throw new UserNotFoundException("User doesnt exist");
         }
 
         Project project = new Project(name);
@@ -55,8 +56,8 @@ public class ProjectService {
         return project;
     }
 
-    public void addEmptyProject(String name) {
-        this.projectRepository.save(new Project(name));
+    public Project addEmptyProject(String name) {
+        return this.projectRepository.save(new Project(name));
     }
 
     public List<Project> getAllProjects() {
