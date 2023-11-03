@@ -3,6 +3,9 @@ package com.example.projectmanager.entities;
 
 import com.example.projectmanager.utils.Specialization;
 import com.example.projectmanager.utils.TaskState;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,13 +20,24 @@ import java.util.Date;
 @AllArgsConstructor
 @Entity
 @Table(name="TASKS")
+@JsonIdentityInfo(scope = Task.class,
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
+@JsonIdentityReference(alwaysAsId = true)
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long projectId;
-    private Long createdById;
-    private Long assignedToId;
+
+    @ManyToOne
+    @JoinColumn(name = "project_id")
+    @JsonIdentityReference(alwaysAsId = true)
+    private Project project;
+
+    @ManyToOne
+    @JoinColumn(name = "assigned_to_id")
+    @JsonIdentityReference(alwaysAsId = true)
+    private Developer assignedTo;
 
     private String name;
     private Date deadline;
@@ -32,16 +46,14 @@ public class Task {
     //TODO add estimation
 
 
-    public Task(Long projectId,
-                Long createdById,
-                Long assignedToId,
+    public Task(Project project,
+                Developer assignedTo,
                 String name,
                 Date deadline,
                 TaskState taskState,
                 Specialization specialization) {
-        this.projectId = projectId;
-        this.createdById = createdById;
-        this.assignedToId = assignedToId;
+        this.project = project;
+        this.assignedTo = assignedTo;
         this.name = name;
         this.deadline = deadline;
         this.taskState = taskState;
