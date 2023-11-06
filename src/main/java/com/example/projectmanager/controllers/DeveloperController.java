@@ -2,6 +2,7 @@ package com.example.projectmanager.controllers;
 
 import com.example.projectmanager.entities.Developer;
 import com.example.projectmanager.services.DeveloperService;
+import com.example.projectmanager.utils.DeveloperCredentials;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.nio.channels.ReadPendingException;
 
@@ -23,8 +25,4 @@ public class DeveloperController {
         this.developerService = developerService;
     }
 
-    @PostMapping("/developer")
-    public ResponseEntity<Developer> addDeveloperToProject(@RequestBody Developer developer) {
-        return new ResponseEntity<>(developerService.createDeveloper(developer), HttpStatus.CREATED);
-    }
 }

@@ -15,8 +15,4 @@ public class DeveloperService {
         this.developerRepository = developerRepository;
     }
 
-    public Developer createDeveloper(Developer developer) {
-
-        return this.developerRepository.save(developer);
-    }
 }
