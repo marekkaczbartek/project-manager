@@ -1,7 +1,7 @@
 package com.example.projectmanager.exceptions;
 
-public class TaskNotFound extends RuntimeException {
-    public TaskNotFound(String message) {
+public class TaskNotFoundException extends RuntimeException {
+    public TaskNotFoundException(String message) {
         super(message);
     }
 }
