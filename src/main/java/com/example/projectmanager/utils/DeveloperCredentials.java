@@ -5,5 +5,5 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 public record DeveloperCredentials(@JsonProperty("userId") Long userId,
-                                   @JsonProperty("specialization") Specialization specialization) {
+                                   @JsonProperty("specialization") String specialization) {
 }
