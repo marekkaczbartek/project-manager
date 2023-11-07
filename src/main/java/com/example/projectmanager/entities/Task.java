@@ -12,6 +12,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
@@ -40,7 +42,7 @@ public class Task {
     private Developer assignedTo;
 
     private String name;
-    private Date deadline;
+    private String description;
     private TaskState taskState;
     private Specialization specialization;
     //TODO add estimation
@@ -49,13 +51,13 @@ public class Task {
     public Task(Project project,
                 Developer assignedTo,
                 String name,
-                Date deadline,
+                String description,
                 TaskState taskState,
                 Specialization specialization) {
         this.project = project;
         this.assignedTo = assignedTo;
         this.name = name;
-        this.deadline = deadline;
+        this.description = description;
         this.taskState = taskState;
         this.specialization = specialization;
     }

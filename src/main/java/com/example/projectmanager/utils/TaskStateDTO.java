@@ -1,5 +1,7 @@
 package com.example.projectmanager.utils;
 
 
-public record TaskStateDTO(String taskState) {
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public record TaskStateDTO(@JsonProperty("state") String taskState) {
 }
