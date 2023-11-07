@@ -12,11 +12,6 @@ import com.example.projectmanager.utils.TaskCredentials;
 import com.example.projectmanager.utils.TaskState;
 import com.example.projectmanager.utils.Validation;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.yaml.snakeyaml.util.EnumUtils;
-
-import javax.swing.text.html.Option;
-import java.util.Optional;
 
 @Service
 public class TaskService {
@@ -46,23 +41,29 @@ public class TaskService {
         String description = taskCredentials.description();
         String specString = taskCredentials.specialization();
         Long assignedToId = taskCredentials.assignedToId();
+        Integer estimation = taskCredentials.estimation();
         Specialization specialization;
-        if (Validation.isValidSpecialization(specString)) {
-            specialization = Specialization.valueOf(specString);
+
+        if (!Validation.isValidSpecialization(specString)) {
+            throw new InvalidSpecializationException("Invalid specialization");
         }
-        else throw new InvalidSpecializationException("Invalid specialization");
+        if (!Validation.isValidEstimation(estimation)) {
+            throw new InvalidEstimationException("Invalid estimation");
+        }
+
+        specialization = Specialization.valueOf(specString);
 
         if (assignedToId != null) {
             Developer assignedTo = developerRepository.
                     findByIdAndProjectId(assignedToId, projectId).
                     orElseThrow(() -> new UserNotFoundException("User not found in the project"));
             if (specialization.equals(assignedTo.getSpecialization())) {
-                task = new Task(project, assignedTo, name, description, TaskState.IN_PROGRESS, specialization);
+                task = new Task(project, assignedTo, name, description, TaskState.IN_PROGRESS, specialization, estimation);
             }
             else throw new InvalidSpecializationException("Developer and task specializations do not match");
         }
         else {
-            task = new Task(project, null, name, description, TaskState.OPEN, specialization);
+            task = new Task(project, null, name, description, TaskState.OPEN, specialization, estimation);
         }
         return this.taskRepository.save(task);
     }

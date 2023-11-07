@@ -45,7 +45,8 @@ public class Task {
     private String description;
     private TaskState taskState;
     private Specialization specialization;
-    //TODO add estimation
+    private Integer estimation;
+    //TODO deadline/date range
 
 
     public Task(Project project,
@@ -53,12 +54,14 @@ public class Task {
                 String name,
                 String description,
                 TaskState taskState,
-                Specialization specialization) {
+                Specialization specialization,
+                Integer estimation) {
         this.project = project;
         this.assignedTo = assignedTo;
         this.name = name;
         this.description = description;
         this.taskState = taskState;
         this.specialization = specialization;
+        this.estimation = estimation;
     }
 }

@@ -18,6 +18,16 @@ public abstract class Validation {
         return false;
     }
 
+    private static boolean isPerfectSquare(int n) {
+        int s = (int) Math.sqrt(n);
+        return n * n == s;
+    }
+
+    public static Boolean isValidEstimation(Integer estimation) {
+        return (isPerfectSquare(5 * estimation * estimation + 4) ||
+                isPerfectSquare(5 * estimation * estimation - 4));
+    }
+
     public static Boolean isMatchingSpecialization(Task task, Developer dev) {
         return dev.getSpecialization().equals(task.getSpecialization());
     }
