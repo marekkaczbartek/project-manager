@@ -64,11 +64,6 @@ public class ProjectService {
         }
         return project;
     }
-
-    public Project addEmptyProject(String name) {
-        return this.projectRepository.save(new Project(name));
-    }
-
     public List<Project> getAllProjects() {
         return this.projectRepository.findAll();
     }
@@ -115,5 +110,26 @@ public class ProjectService {
         else {
             throw new UserAlreadyPresentException("User already present in the project");
         }
+    }
+
+    public List<Task> getTasksInProjectBySpecialization(Long projectId, String specString) {
+        Project project = this.projectRepository.
+                findById(projectId).
+                orElseThrow(() -> new ProjectNotFoundException("Project not found"));
+        String specStringCap = specString.toUpperCase();
+        Specialization specialization;
+        if (Validation.isValidSpecialization(specStringCap)) {
+            specialization = Specialization.valueOf(specStringCap);
+            return this.taskRepository.findAllByProjectIdAndSpecialization(projectId, specialization);
+        }
+        else throw new InvalidSpecializationException("Invalid specialization");
+    }
+
+    public List<Task> getAllTasksInProject(Long projectId) {
+        Project project = this.projectRepository.
+                findById(projectId).
+                orElseThrow(() -> new ProjectNotFoundException("Project not found"));
+
+        return this.taskRepository.findAllByProjectId(projectId);
     }
 }

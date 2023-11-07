@@ -2,6 +2,7 @@ package com.example.projectmanager.controllers;
 
 import com.example.projectmanager.entities.Developer;
 import com.example.projectmanager.entities.Project;
+import com.example.projectmanager.entities.Task;
 import com.example.projectmanager.entities.User;
 import com.example.projectmanager.exceptions.ProjectNotFoundException;
 import com.example.projectmanager.exceptions.UserNotFoundException;
@@ -17,6 +18,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @RestController
+@RequestMapping("/project")
 public class ProjectController {
     private final ProjectService projectService;
 
@@ -25,7 +27,7 @@ public class ProjectController {
         this.projectService = projectService;
     }
 
-    @PostMapping("/project")
+    @PostMapping
     public ResponseEntity<Project> addNewProject(@RequestBody ProjectCredentials projectCredentials) {
         try {
             Project project = this.projectService.addNewProject(projectCredentials);
@@ -36,12 +38,12 @@ public class ProjectController {
         }
     }
 
-    @GetMapping("/project")
+    @GetMapping
     public List<Project> getAllProjects() {
         return this.projectService.getAllProjects();
     }
 
-    @GetMapping("/project/{id}")
+    @GetMapping("/{id}")
     public Project getProjectById(@PathVariable(name = "id") Long id) {
         try {
             return this.projectService.getProjectById(id);
@@ -51,19 +53,36 @@ public class ProjectController {
         }
     }
 
-    @GetMapping("/project/{id}/users")
+    @GetMapping("/{id}/users")
     public List<User> getUsersInProject(@PathVariable(value = "id") Long projectId) {
         return this.projectService.getUsersInProject(projectId);
     }
 
-    @PostMapping("/project/{id}/user")
+    @PostMapping("/{id}/user")
     public ResponseEntity<Developer> addDeveloperToProject(@PathVariable(value = "id") Long projectId,
                                                            @RequestBody DeveloperCredentials developerCredentials) {
         try {
             Developer developer = this.projectService.addDeveloperToProject(projectId, developerCredentials);
             return new ResponseEntity<>(developer, HttpStatus.CREATED);
+        } catch (RuntimeException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
         }
-        catch(RuntimeException e) {
+    }
+
+    @GetMapping("/{id}/tasks")
+    public ResponseEntity<List<Task>> getTasksInProject(@PathVariable(value = "id") Long projectId,
+                                                                        @RequestParam(value = "spec", required = false) String specString) {
+        try {
+            List<Task> tasks;
+            if (specString == null) {
+                tasks = this.projectService.getAllTasksInProject(projectId);
+            }
+            else {
+                tasks = this.projectService.getTasksInProjectBySpecialization(projectId, specString);
+            }
+            return new ResponseEntity<>(tasks, HttpStatus.OK);
+        }
+        catch (RuntimeException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
         }
     }
