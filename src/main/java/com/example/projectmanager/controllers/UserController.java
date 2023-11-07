@@ -1,11 +1,15 @@
 package com.example.projectmanager.controllers;
 
+import com.example.projectmanager.entities.Project;
 import com.example.projectmanager.entities.User;
+import com.example.projectmanager.exceptions.UserNotFoundException;
 import com.example.projectmanager.services.UserService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 @RestController
 public class UserController {
@@ -16,12 +20,22 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public Iterable<User> getAllUsers() {
+    public List<User> getAllUsers() {
         return this.userService.getAllUsers();
     }
 
     @PostMapping("/users")
-    public void addNewUser(@RequestBody User user) {
-        this.userService.addNewUser(user);
+    public ResponseEntity<User> addNewUser(@RequestBody User user) {
+        return new ResponseEntity<>(this.userService.addNewUser(user), HttpStatus.CREATED);
+    }
+
+    @GetMapping("users/{userId}/projects")
+    public List<Project> getUserProjects(@PathVariable(value = "userId") Long userId) {
+        try {
+            return this.userService.getUserProjects(userId);
+        }
+        catch (UserNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
+        }
     }
 }
