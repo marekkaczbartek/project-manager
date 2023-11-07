@@ -20,7 +20,7 @@ public abstract class Validation {
 
     private static boolean isPerfectSquare(int n) {
         int s = (int) Math.sqrt(n);
-        return n * n == s;
+        return s * s == n;
     }
 
     public static Boolean isValidEstimation(Integer estimation) {

@@ -2,6 +2,7 @@ package com.example.projectmanager.controllers;
 
 import com.example.projectmanager.entities.Task;
 import com.example.projectmanager.services.TaskService;
+import com.example.projectmanager.utils.DateRange;
 import com.example.projectmanager.utils.TaskCredentials;
 import com.example.projectmanager.utils.TaskStateDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/project/{projectId}/task")
@@ -46,13 +49,26 @@ public class TaskController {
         }
     }
 
-    @PutMapping("/{taskId}/")
+    @PutMapping("/{taskId}/state")
     public ResponseEntity<Task> changeTaskState(@PathVariable(value = "projectId") Long projectId,
                                                 @PathVariable(value = "taskId") Long taskId,
                                                 @RequestBody TaskStateDTO taskStateDTO) {
         try {
             String taskState = taskStateDTO.taskState();
             Task task = this.taskService.changeTaskState(projectId, taskId, taskState);
+            return new ResponseEntity<>(task, HttpStatus.OK);
+        }
+        catch (RuntimeException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
+        }
+    }
+
+    @PutMapping("/{taskId}/date")
+    public ResponseEntity<Task> changeTaskDateRange(@PathVariable(value = "projectId") Long projectId,
+                                                @PathVariable(value = "taskId") Long taskId,
+                                                @RequestBody DateRange dateRange) {
+        try {
+            Task task = this.taskService.changeTaskDateRange(projectId, taskId, dateRange);
             return new ResponseEntity<>(task, HttpStatus.OK);
         }
         catch (RuntimeException e) {

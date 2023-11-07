@@ -7,11 +7,12 @@ import com.example.projectmanager.exceptions.*;
 import com.example.projectmanager.repositories.DeveloperRepository;
 import com.example.projectmanager.repositories.ProjectRepository;
 import com.example.projectmanager.repositories.TaskRepository;
-import com.example.projectmanager.utils.Specialization;
-import com.example.projectmanager.utils.TaskCredentials;
-import com.example.projectmanager.utils.TaskState;
-import com.example.projectmanager.utils.Validation;
+import com.example.projectmanager.utils.*;
 import org.springframework.stereotype.Service;
+
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Service
 public class TaskService {
@@ -41,7 +42,11 @@ public class TaskService {
         String description = taskCredentials.description();
         String specString = taskCredentials.specialization();
         Long assignedToId = taskCredentials.assignedToId();
+        Long createdById = taskCredentials.createdById();
         Integer estimation = taskCredentials.estimation();
+        Date startDate = taskCredentials.dateRange().getStart();
+        Date endDate = taskCredentials.dateRange().getEnd();
+        Date createdAt = Date.valueOf(LocalDate.now());
         Specialization specialization;
 
         if (!Validation.isValidSpecialization(specString)) {
@@ -51,19 +56,46 @@ public class TaskService {
             throw new InvalidEstimationException("Invalid estimation");
         }
 
+        Developer createdBy = developerRepository.
+                findByIdAndProjectId(createdById, projectId).
+                orElseThrow(() -> new UserNotFoundException("User not found in the project"));
+
         specialization = Specialization.valueOf(specString);
 
         if (assignedToId != null) {
             Developer assignedTo = developerRepository.
                     findByIdAndProjectId(assignedToId, projectId).
                     orElseThrow(() -> new UserNotFoundException("User not found in the project"));
+
             if (specialization.equals(assignedTo.getSpecialization())) {
-                task = new Task(project, assignedTo, name, description, TaskState.IN_PROGRESS, specialization, estimation);
+                task = new Task(
+                        project,
+                        createdBy,
+                        assignedTo,
+                        name,
+                        description,
+                        TaskState.IN_PROGRESS,
+                        specialization,
+                        estimation,
+                        createdAt,
+                        startDate,
+                        endDate);
             }
             else throw new InvalidSpecializationException("Developer and task specializations do not match");
         }
         else {
-            task = new Task(project, null, name, description, TaskState.OPEN, specialization, estimation);
+            task = new Task(
+                    project,
+                    createdBy,
+                    null,
+                    name,
+                    description,
+                    TaskState.OPEN,
+                    specialization,
+                    estimation,
+                    createdAt,
+                    startDate,
+                    endDate);
         }
         return this.taskRepository.save(task);
     }
@@ -101,6 +133,30 @@ public class TaskService {
                 return this.taskRepository.save(task);
             }
             else throw new InvalidStateException("Invalid state");
+        }
+        else {
+            throw new TaskNotFoundException("Task not found in the project");
+        }
+    }
+
+    public Task changeTaskDateRange(Long projectId, Long taskId, DateRange dateRange) {
+        Task task = this.taskRepository.
+                findById(taskId).
+                orElseThrow(() -> new TaskNotFoundException("Task not found"));
+        Project project = this.projectRepository.
+                findById(projectId).
+                orElseThrow(() -> new ProjectNotFoundException("Project not found"));
+        if (this.projectService.isTaskInProject(project, task)) {
+            Date start = dateRange.getStart();
+            Date end = dateRange.getEnd();
+
+            if (start != null) {
+                task.setStartDate(start);
+            }
+            if (end != null) {
+                task.setEndDate(end);
+            }
+            return this.taskRepository.save(task);
         }
         else {
             throw new TaskNotFoundException("Task not found in the project");
