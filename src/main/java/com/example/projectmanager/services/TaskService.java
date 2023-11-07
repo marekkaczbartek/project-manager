@@ -1,5 +1,6 @@
 package com.example.projectmanager.services;
 
+import com.example.projectmanager.entities.Assignment;
 import com.example.projectmanager.entities.Developer;
 import com.example.projectmanager.entities.Project;
 import com.example.projectmanager.entities.Task;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Service
 public class TaskService {

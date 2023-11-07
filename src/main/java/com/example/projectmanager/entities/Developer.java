@@ -36,8 +36,9 @@ public class Developer {
     private Project project;
 
     private Specialization specialization;
-
+    @JsonIdentityReference(alwaysAsId = true)
     @OneToMany(mappedBy = "assignedTo")
+
     private List<Task> tasks;
 
 

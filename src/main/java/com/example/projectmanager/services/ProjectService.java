@@ -1,14 +1,8 @@
 package com.example.projectmanager.services;
 
-import com.example.projectmanager.entities.Developer;
-import com.example.projectmanager.entities.Project;
-import com.example.projectmanager.entities.Task;
-import com.example.projectmanager.entities.User;
+import com.example.projectmanager.entities.*;
 import com.example.projectmanager.exceptions.*;
-import com.example.projectmanager.repositories.DeveloperRepository;
-import com.example.projectmanager.repositories.ProjectRepository;
-import com.example.projectmanager.repositories.TaskRepository;
-import com.example.projectmanager.repositories.UserRepository;
+import com.example.projectmanager.repositories.*;
 import com.example.projectmanager.utils.DeveloperCredentials;
 import com.example.projectmanager.utils.ProjectCredentials;
 import com.example.projectmanager.utils.Specialization;
@@ -24,16 +18,19 @@ public class ProjectService {
     private final UserRepository userRepository;
     private final DeveloperRepository developerRepository;
     private final TaskRepository taskRepository;
+    private final AssignmentRepository assignmentRepository;
+
 
     @Autowired
     public ProjectService(ProjectRepository projectRepository,
                           UserRepository userRepository,
                           DeveloperRepository developerRepository,
-                          TaskRepository taskRepository) {
+                          TaskRepository taskRepository, AssignmentRepository assignmentRepository) {
         this.projectRepository = projectRepository;
         this.userRepository = userRepository;
         this.developerRepository = developerRepository;
         this.taskRepository = taskRepository;
+        this.assignmentRepository = assignmentRepository;
     }
 
     public Project addNewProject(ProjectCredentials projectCredentials) {
@@ -86,6 +83,11 @@ public class ProjectService {
     public Boolean isTaskInProject(Project project, Task task) {
         List<Task> tasksInProject = this.taskRepository.findAllByProjectId(project.getId());
         return tasksInProject.contains(task);
+    }
+
+    public Boolean isAssignmentInProject(Project project, Assignment assignment) {
+        List<Assignment> assignmentsInProject = this.assignmentRepository.findAllByProjectId(project.getId());
+        return assignmentsInProject.contains(assignment);
     }
 
     public Developer addDeveloperToProject(Long projectId, DeveloperCredentials developerCredentials) {
