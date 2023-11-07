@@ -1,0 +1,27 @@
+services:
+  db:
+    ports:
+      - 5432:5432
+    container_name: project_manager_postgres
+    image: postgres
+    environment:
+      - POSTGRES_DB=projectmanagerdb
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_USER=admin
+    volumes:
+      - C:\projectmanager-data:/var/lib/postgresql/data
+    restart: always
+  backend:
+    build:
+      dockerfile: Dockerfile
+    container_name: project_manager_container
+    ports:
+      - 8089:8089
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/projectmanagerdb
+      - SPRING_DATASOURCE_USERNAME=admin
+      - SPRING_DATASOURCE_PASSWORD=admin
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    depends_on:
+      - db
+    restart: always
