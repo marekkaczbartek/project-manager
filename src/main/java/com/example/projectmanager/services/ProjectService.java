@@ -18,19 +18,17 @@ public class ProjectService {
     private final UserRepository userRepository;
     private final DeveloperRepository developerRepository;
     private final TaskRepository taskRepository;
-    private final AssignmentRepository assignmentRepository;
 
 
     @Autowired
     public ProjectService(ProjectRepository projectRepository,
                           UserRepository userRepository,
                           DeveloperRepository developerRepository,
-                          TaskRepository taskRepository, AssignmentRepository assignmentRepository) {
+                          TaskRepository taskRepository) {
         this.projectRepository = projectRepository;
         this.userRepository = userRepository;
         this.developerRepository = developerRepository;
         this.taskRepository = taskRepository;
-        this.assignmentRepository = assignmentRepository;
     }
 
     public Project addNewProject(ProjectCredentials projectCredentials) {
@@ -83,11 +81,6 @@ public class ProjectService {
     public Boolean isTaskInProject(Project project, Task task) {
         List<Task> tasksInProject = this.taskRepository.findAllByProjectId(project.getId());
         return tasksInProject.contains(task);
-    }
-
-    public Boolean isAssignmentInProject(Project project, Assignment assignment) {
-        List<Assignment> assignmentsInProject = this.assignmentRepository.findAllByProjectId(project.getId());
-        return assignmentsInProject.contains(assignment);
     }
 
     public Developer addDeveloperToProject(Long projectId, DeveloperCredentials developerCredentials) {
