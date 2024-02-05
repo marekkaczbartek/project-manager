@@ -41,6 +41,7 @@
 ### 2.3 Tasks
 - **GET** `/projects/{id}/tasks`
   - return all tasks assigned in a project
+  - **optional**: `spec` parameter, return tasks of given specialization 
 
 
 - **POST** `projects/{id}/task`
