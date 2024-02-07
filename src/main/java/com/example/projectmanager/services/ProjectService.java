@@ -3,8 +3,8 @@ package com.example.projectmanager.services;
 import com.example.projectmanager.entities.*;
 import com.example.projectmanager.exceptions.*;
 import com.example.projectmanager.repositories.*;
-import com.example.projectmanager.utils.DeveloperCredentials;
-import com.example.projectmanager.utils.ProjectCredentials;
+import com.example.projectmanager.utils.DeveloperDTO;
+import com.example.projectmanager.utils.ProjectDTO;
 import com.example.projectmanager.utils.Specialization;
 import com.example.projectmanager.utils.Validation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,11 +31,11 @@ public class ProjectService {
         this.taskRepository = taskRepository;
     }
 
-    public Project addNewProject(ProjectCredentials projectCredentials) {
-        String name = projectCredentials.name();
-        List<DeveloperCredentials> users = projectCredentials.users();
+    public Project addNewProject(ProjectDTO projectDTO) {
+        String name = projectDTO.name();
+        List<DeveloperDTO> users = projectDTO.users();
         List<Developer> developers = new ArrayList<>();
-        for (DeveloperCredentials userSpec : users) {
+        for (DeveloperDTO userSpec : users) {
             Long userId = userSpec.userId();
             String specString = userSpec.specialization();
             Specialization specialization;
@@ -83,15 +83,15 @@ public class ProjectService {
         return tasksInProject.contains(task);
     }
 
-    public Developer addDeveloperToProject(Long projectId, DeveloperCredentials developerCredentials) {
+    public Developer addDeveloperToProject(Long projectId, DeveloperDTO developerDTO) {
         User user = this.userRepository.
-                findById(developerCredentials.userId()).
+                findById(developerDTO.userId()).
                 orElseThrow(() -> new UserNotFoundException("User not found"));
         Project project = this.projectRepository.
                 findById(projectId).
                 orElseThrow(() -> new ProjectNotFoundException("Project not found"));
 
-        String specString = developerCredentials.specialization();
+        String specString = developerDTO.specialization();
         Specialization specialization;
         if (Validation.isValidSpecialization(specString)) {
             specialization = Specialization.valueOf(specString);

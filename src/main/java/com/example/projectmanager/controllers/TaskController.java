@@ -3,15 +3,13 @@ package com.example.projectmanager.controllers;
 import com.example.projectmanager.entities.Task;
 import com.example.projectmanager.services.TaskService;
 import com.example.projectmanager.utils.DateRange;
-import com.example.projectmanager.utils.TaskCredentials;
+import com.example.projectmanager.utils.TaskDTO;
 import com.example.projectmanager.utils.TaskStateDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/project/{projectId}/task")
@@ -25,10 +23,10 @@ public class TaskController {
 
     @PostMapping
     public ResponseEntity<Task> addNewTask(@PathVariable(value = "projectId") Long projectId,
-                                     @RequestBody TaskCredentials taskCredentials) {
+                                     @RequestBody TaskDTO taskDTO) {
 
         try {
-            Task task = this.taskService.addNewTask(projectId, taskCredentials);
+            Task task = this.taskService.addNewTask(projectId, taskDTO);
             return new ResponseEntity<>(task, HttpStatus.CREATED);
         }
         catch (RuntimeException e){

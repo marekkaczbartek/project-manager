@@ -31,20 +31,20 @@ public class TaskService {
         this.projectService = projectService;
     }
 
-    public Task addNewTask(Long projectId, TaskCredentials taskCredentials) {
+    public Task addNewTask(Long projectId, TaskDTO taskDTO) {
         Task task;
         Project project = projectRepository.
                 findById(projectId).
                 orElseThrow(() -> new ProjectNotFoundException("Project not found"));
 
-        String name = taskCredentials.name();
-        String description = taskCredentials.description();
-        String specString = taskCredentials.specialization();
-        Long assignedToId = taskCredentials.assignedToId();
-        Long createdById = taskCredentials.createdById();
-        Integer estimation = taskCredentials.estimation();
-        Date startDate = taskCredentials.dateRange().getStart();
-        Date endDate = taskCredentials.dateRange().getEnd();
+        String name = taskDTO.name();
+        String description = taskDTO.description();
+        String specString = taskDTO.specialization();
+        Long assignedToId = taskDTO.assignedToId();
+        Long createdById = taskDTO.createdById();
+        Integer estimation = taskDTO.estimation();
+        Date startDate = taskDTO.dateRange().getStart();
+        Date endDate = taskDTO.dateRange().getEnd();
         Date createdAt = Date.valueOf(LocalDate.now());
         Specialization specialization;
 

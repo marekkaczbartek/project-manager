@@ -5,10 +5,9 @@ import com.example.projectmanager.entities.Project;
 import com.example.projectmanager.entities.Task;
 import com.example.projectmanager.entities.User;
 import com.example.projectmanager.exceptions.ProjectNotFoundException;
-import com.example.projectmanager.exceptions.UserNotFoundException;
 import com.example.projectmanager.services.ProjectService;
-import com.example.projectmanager.utils.DeveloperCredentials;
-import com.example.projectmanager.utils.ProjectCredentials;
+import com.example.projectmanager.utils.DeveloperDTO;
+import com.example.projectmanager.utils.ProjectDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,9 +27,9 @@ public class ProjectController {
     }
 
     @PostMapping
-    public ResponseEntity<Project> addNewProject(@RequestBody ProjectCredentials projectCredentials) {
+    public ResponseEntity<Project> addNewProject(@RequestBody ProjectDTO projectDTO) {
         try {
-            Project project = this.projectService.addNewProject(projectCredentials);
+            Project project = this.projectService.addNewProject(projectDTO);
             return new ResponseEntity<>(project, HttpStatus.CREATED);
         }
         catch (RuntimeException e) {
@@ -60,9 +59,9 @@ public class ProjectController {
 
     @PostMapping("/{id}/user")
     public ResponseEntity<Developer> addDeveloperToProject(@PathVariable(value = "id") Long projectId,
-                                                           @RequestBody DeveloperCredentials developerCredentials) {
+                                                           @RequestBody DeveloperDTO developerDTO) {
         try {
-            Developer developer = this.projectService.addDeveloperToProject(projectId, developerCredentials);
+            Developer developer = this.projectService.addDeveloperToProject(projectId, developerDTO);
             return new ResponseEntity<>(developer, HttpStatus.CREATED);
         } catch (RuntimeException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
