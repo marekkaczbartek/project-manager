@@ -1,6 +1,6 @@
-package com.example.projectmanager.repositories;
+package com.example.projectmanager.project;
 
-import com.example.projectmanager.entities.Project;
+import com.example.projectmanager.project.Project;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

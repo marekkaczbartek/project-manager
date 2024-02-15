@@ -1,6 +1,6 @@
-package com.example.projectmanager.repositories;
+package com.example.projectmanager.user;
 
-import com.example.projectmanager.entities.User;
+import com.example.projectmanager.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

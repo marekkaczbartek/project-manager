@@ -1,9 +1,7 @@
-package com.example.projectmanager.controllers;
+package com.example.projectmanager.user;
 
-import com.example.projectmanager.entities.Project;
-import com.example.projectmanager.entities.User;
+import com.example.projectmanager.project.Project;
 import com.example.projectmanager.exceptions.UserNotFoundException;
-import com.example.projectmanager.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -1,7 +1,5 @@
-package com.example.projectmanager.controllers;
+package com.example.projectmanager.task;
 
-import com.example.projectmanager.entities.Task;
-import com.example.projectmanager.services.TaskService;
 import com.example.projectmanager.utils.DateRange;
 import com.example.projectmanager.utils.TaskDTO;
 import com.example.projectmanager.utils.TaskStateDTO;

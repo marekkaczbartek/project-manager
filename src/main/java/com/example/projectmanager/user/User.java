@@ -1,7 +1,7 @@
-package com.example.projectmanager.entities;
+package com.example.projectmanager.user;
 
+import com.example.projectmanager.developer.Developer;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -11,29 +11,30 @@ import lombok.Setter;
 
 import java.util.List;
 
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 @Entity
-@Table(name="PROJECTS")
-@JsonIdentityInfo(scope = Project.class,
+@Table(name="USERS")
+@JsonIdentityInfo(scope = User.class,
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id")
-public class Project {
 
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-
-    @OneToMany(mappedBy = "project")
+    private String surname;
+    @OneToMany(mappedBy = "user")
     private List<Developer> developers;
 
-    @OneToMany(mappedBy = "project")
-    private List<Task> tasks;
+    //TODO add more fields perhaps
 
-    public Project(String name) {
+
+    public User(String name, String surname) {
         this.name = name;
+        this.surname = surname;
     }
 }

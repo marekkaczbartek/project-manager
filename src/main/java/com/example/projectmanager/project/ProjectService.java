@@ -1,8 +1,14 @@
-package com.example.projectmanager.services;
+package com.example.projectmanager.project;
 
-import com.example.projectmanager.entities.*;
+import com.example.projectmanager.developer.Developer;
+import com.example.projectmanager.developer.DeveloperRepository;
 import com.example.projectmanager.exceptions.*;
-import com.example.projectmanager.repositories.*;
+import com.example.projectmanager.project.Project;
+import com.example.projectmanager.project.ProjectRepository;
+import com.example.projectmanager.task.Task;
+import com.example.projectmanager.task.TaskRepository;
+import com.example.projectmanager.user.User;
+import com.example.projectmanager.user.UserRepository;
 import com.example.projectmanager.utils.DeveloperDTO;
 import com.example.projectmanager.utils.ProjectDTO;
 import com.example.projectmanager.utils.Specialization;

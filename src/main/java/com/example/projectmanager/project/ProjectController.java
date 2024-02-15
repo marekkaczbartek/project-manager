@@ -1,11 +1,9 @@
-package com.example.projectmanager.controllers;
+package com.example.projectmanager.project;
 
-import com.example.projectmanager.entities.Developer;
-import com.example.projectmanager.entities.Project;
-import com.example.projectmanager.entities.Task;
-import com.example.projectmanager.entities.User;
+import com.example.projectmanager.developer.Developer;
+import com.example.projectmanager.task.Task;
+import com.example.projectmanager.user.User;
 import com.example.projectmanager.exceptions.ProjectNotFoundException;
-import com.example.projectmanager.services.ProjectService;
 import com.example.projectmanager.utils.DeveloperDTO;
 import com.example.projectmanager.utils.ProjectDTO;
 import org.springframework.beans.factory.annotation.Autowired;

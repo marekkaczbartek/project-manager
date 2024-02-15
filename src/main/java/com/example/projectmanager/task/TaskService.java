@@ -1,12 +1,13 @@
-package com.example.projectmanager.services;
+package com.example.projectmanager.task;
 
-import com.example.projectmanager.entities.Developer;
-import com.example.projectmanager.entities.Project;
-import com.example.projectmanager.entities.Task;
+import com.example.projectmanager.developer.Developer;
+import com.example.projectmanager.project.Project;
+import com.example.projectmanager.project.ProjectService;
+import com.example.projectmanager.task.Task;
 import com.example.projectmanager.exceptions.*;
-import com.example.projectmanager.repositories.DeveloperRepository;
-import com.example.projectmanager.repositories.ProjectRepository;
-import com.example.projectmanager.repositories.TaskRepository;
+import com.example.projectmanager.developer.DeveloperRepository;
+import com.example.projectmanager.project.ProjectRepository;
+import com.example.projectmanager.task.TaskRepository;
 import com.example.projectmanager.utils.*;
 import org.springframework.stereotype.Service;
 

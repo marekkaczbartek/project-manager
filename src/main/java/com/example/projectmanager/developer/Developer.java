@@ -1,5 +1,8 @@
-package com.example.projectmanager.entities;
+package com.example.projectmanager.developer;
 
+import com.example.projectmanager.project.Project;
+import com.example.projectmanager.task.Task;
+import com.example.projectmanager.user.User;
 import com.example.projectmanager.utils.Specialization;
 import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;

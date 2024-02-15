@@ -1,6 +1,6 @@
-package com.example.projectmanager.repositories;
+package com.example.projectmanager.developer;
 
-import com.example.projectmanager.entities.Developer;
+import com.example.projectmanager.developer.Developer;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

@@ -1,12 +1,11 @@
-package com.example.projectmanager.services;
+package com.example.projectmanager.user;
 
-import com.example.projectmanager.entities.Project;
-import com.example.projectmanager.entities.User;
+import com.example.projectmanager.project.Project;
+import com.example.projectmanager.user.User;
 import com.example.projectmanager.exceptions.UserNotFoundException;
-import com.example.projectmanager.repositories.ProjectRepository;
-import com.example.projectmanager.repositories.UserRepository;
+import com.example.projectmanager.project.ProjectRepository;
+import com.example.projectmanager.user.UserRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 

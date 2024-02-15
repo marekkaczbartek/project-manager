@@ -1,7 +1,7 @@
 package com.example.projectmanager.utils;
 
-import com.example.projectmanager.entities.Developer;
-import com.example.projectmanager.entities.Task;
+import com.example.projectmanager.developer.Developer;
+import com.example.projectmanager.task.Task;
 
 public abstract class Validation {
     public static Boolean isValidState(String state) {

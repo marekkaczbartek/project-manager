@@ -1,7 +1,8 @@
-package com.example.projectmanager.entities;
+package com.example.projectmanager.task;
 
 
-import com.example.projectmanager.utils.DateRange;
+import com.example.projectmanager.developer.Developer;
+import com.example.projectmanager.project.Project;
 import com.example.projectmanager.utils.Specialization;
 import com.example.projectmanager.utils.TaskState;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;

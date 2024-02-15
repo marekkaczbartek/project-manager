@@ -1,6 +1,6 @@
-package com.example.projectmanager.repositories;
+package com.example.projectmanager.task;
 
-import com.example.projectmanager.entities.Task;
+import com.example.projectmanager.task.Task;
 import com.example.projectmanager.utils.Specialization;
 import org.springframework.data.jpa.repository.JpaRepository;
 
