@@ -1,8 +1,8 @@
 package com.example.projectmanager.task;
 
 import com.example.projectmanager.utils.DateRange;
-import com.example.projectmanager.utils.TaskDTO;
-import com.example.projectmanager.utils.TaskStateDTO;
+import com.example.projectmanager.utils.TaskDetails;
+import com.example.projectmanager.utils.TaskStateDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,10 +21,10 @@ public class TaskController {
 
     @PostMapping
     public ResponseEntity<Task> addNewTask(@PathVariable(value = "projectId") Long projectId,
-                                     @RequestBody TaskDTO taskDTO) {
+                                     @RequestBody TaskDetails taskDetails) {
 
         try {
-            Task task = this.taskService.addNewTask(projectId, taskDTO);
+            Task task = this.taskService.addNewTask(projectId, taskDetails);
             return new ResponseEntity<>(task, HttpStatus.CREATED);
         }
         catch (RuntimeException e){
@@ -48,9 +48,9 @@ public class TaskController {
     @PutMapping("/{taskId}/state")
     public ResponseEntity<Task> changeTaskState(@PathVariable(value = "projectId") Long projectId,
                                                 @PathVariable(value = "taskId") Long taskId,
-                                                @RequestBody TaskStateDTO taskStateDTO) {
+                                                @RequestBody TaskStateDetails taskStateDetails) {
         try {
-            String taskState = taskStateDTO.taskState();
+            String taskState = taskStateDetails.taskState();
             Task task = this.taskService.changeTaskState(projectId, taskId, taskState);
             return new ResponseEntity<>(task, HttpStatus.OK);
         }

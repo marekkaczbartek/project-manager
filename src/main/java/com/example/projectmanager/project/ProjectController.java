@@ -4,8 +4,8 @@ import com.example.projectmanager.developer.Developer;
 import com.example.projectmanager.task.Task;
 import com.example.projectmanager.user.User;
 import com.example.projectmanager.exceptions.ProjectNotFoundException;
-import com.example.projectmanager.utils.DeveloperDTO;
-import com.example.projectmanager.utils.ProjectDTO;
+import com.example.projectmanager.utils.DeveloperDetails;
+import com.example.projectmanager.utils.ProjectDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,9 +25,9 @@ public class ProjectController {
     }
 
     @PostMapping
-    public ResponseEntity<Project> addNewProject(@RequestBody ProjectDTO projectDTO) {
+    public ResponseEntity<Project> addNewProject(@RequestBody ProjectDetails projectDetails) {
         try {
-            Project project = this.projectService.addNewProject(projectDTO);
+            Project project = this.projectService.addNewProject(projectDetails);
             return new ResponseEntity<>(project, HttpStatus.CREATED);
         }
         catch (RuntimeException e) {
@@ -57,9 +57,9 @@ public class ProjectController {
 
     @PostMapping("/{id}/user")
     public ResponseEntity<Developer> addDeveloperToProject(@PathVariable(value = "id") Long projectId,
-                                                           @RequestBody DeveloperDTO developerDTO) {
+                                                           @RequestBody DeveloperDetails developerDetails) {
         try {
-            Developer developer = this.projectService.addDeveloperToProject(projectId, developerDTO);
+            Developer developer = this.projectService.addDeveloperToProject(projectId, developerDetails);
             return new ResponseEntity<>(developer, HttpStatus.CREATED);
         } catch (RuntimeException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);

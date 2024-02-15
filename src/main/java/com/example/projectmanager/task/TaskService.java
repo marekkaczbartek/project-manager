@@ -3,11 +3,9 @@ package com.example.projectmanager.task;
 import com.example.projectmanager.developer.Developer;
 import com.example.projectmanager.project.Project;
 import com.example.projectmanager.project.ProjectService;
-import com.example.projectmanager.task.Task;
 import com.example.projectmanager.exceptions.*;
 import com.example.projectmanager.developer.DeveloperRepository;
 import com.example.projectmanager.project.ProjectRepository;
-import com.example.projectmanager.task.TaskRepository;
 import com.example.projectmanager.utils.*;
 import org.springframework.stereotype.Service;
 
@@ -32,20 +30,20 @@ public class TaskService {
         this.projectService = projectService;
     }
 
-    public Task addNewTask(Long projectId, TaskDTO taskDTO) {
+    public Task addNewTask(Long projectId, TaskDetails taskDetails) {
         Task task;
         Project project = projectRepository.
                 findById(projectId).
                 orElseThrow(() -> new ProjectNotFoundException("Project not found"));
 
-        String name = taskDTO.name();
-        String description = taskDTO.description();
-        String specString = taskDTO.specialization();
-        Long assignedToId = taskDTO.assignedToId();
-        Long createdById = taskDTO.createdById();
-        Integer estimation = taskDTO.estimation();
-        Date startDate = taskDTO.dateRange().getStart();
-        Date endDate = taskDTO.dateRange().getEnd();
+        String name = taskDetails.name();
+        String description = taskDetails.description();
+        String specString = taskDetails.specialization();
+        Long assignedToId = taskDetails.assignedToId();
+        Long createdById = taskDetails.createdById();
+        Integer estimation = taskDetails.estimation();
+        Date startDate = taskDetails.dateRange().getStart();
+        Date endDate = taskDetails.dateRange().getEnd();
         Date createdAt = Date.valueOf(LocalDate.now());
         Specialization specialization;
 

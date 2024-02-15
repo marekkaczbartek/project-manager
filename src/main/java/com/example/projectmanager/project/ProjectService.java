@@ -3,14 +3,12 @@ package com.example.projectmanager.project;
 import com.example.projectmanager.developer.Developer;
 import com.example.projectmanager.developer.DeveloperRepository;
 import com.example.projectmanager.exceptions.*;
-import com.example.projectmanager.project.Project;
-import com.example.projectmanager.project.ProjectRepository;
 import com.example.projectmanager.task.Task;
 import com.example.projectmanager.task.TaskRepository;
 import com.example.projectmanager.user.User;
 import com.example.projectmanager.user.UserRepository;
-import com.example.projectmanager.utils.DeveloperDTO;
-import com.example.projectmanager.utils.ProjectDTO;
+import com.example.projectmanager.utils.DeveloperDetails;
+import com.example.projectmanager.utils.ProjectDetails;
 import com.example.projectmanager.utils.Specialization;
 import com.example.projectmanager.utils.Validation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,11 +35,11 @@ public class ProjectService {
         this.taskRepository = taskRepository;
     }
 
-    public Project addNewProject(ProjectDTO projectDTO) {
-        String name = projectDTO.name();
-        List<DeveloperDTO> users = projectDTO.users();
+    public Project addNewProject(ProjectDetails projectDetails) {
+        String name = projectDetails.name();
+        List<DeveloperDetails> users = projectDetails.users();
         List<Developer> developers = new ArrayList<>();
-        for (DeveloperDTO userSpec : users) {
+        for (DeveloperDetails userSpec : users) {
             Long userId = userSpec.userId();
             String specString = userSpec.specialization();
             Specialization specialization;
@@ -89,15 +87,15 @@ public class ProjectService {
         return tasksInProject.contains(task);
     }
 
-    public Developer addDeveloperToProject(Long projectId, DeveloperDTO developerDTO) {
+    public Developer addDeveloperToProject(Long projectId, DeveloperDetails developerDetails) {
         User user = this.userRepository.
-                findById(developerDTO.userId()).
+                findById(developerDetails.userId()).
                 orElseThrow(() -> new UserNotFoundException("User not found"));
         Project project = this.projectRepository.
                 findById(projectId).
                 orElseThrow(() -> new ProjectNotFoundException("Project not found"));
 
-        String specString = developerDTO.specialization();
+        String specString = developerDetails.specialization();
         Specialization specialization;
         if (Validation.isValidSpecialization(specString)) {
             specialization = Specialization.valueOf(specString);
